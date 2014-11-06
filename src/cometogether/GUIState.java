@@ -1,5 +1,7 @@
 package cometogether;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.gui.*;
 
 /**
@@ -8,18 +10,18 @@ import org.newdawn.slick.gui.*;
  */
 public class GUIState {
     
-    private Game g;
+    private Game game;
     private TextField field;
  
     public GUIState(Game g) {
-        this.g = g;
-        createGUI();
+        this.game = g;
     }
     
-    public void createGUI() {
-        field = new TextField(g.getGameContainer(), g.getFont(), g.getWidth()/2
-                , g.getWidth()/2, 100, 100);
+    public void createGUI(GameContainer gc, Graphics g) {
+        field = new TextField(gc, g.getFont(), game.getWidth()/2
+                , game.getWidth()/2, 100, 100);
         field.setText("Test");
+        field.render(gc, g);
     }
     
 }

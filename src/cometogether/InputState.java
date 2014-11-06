@@ -10,9 +10,12 @@ import org.newdawn.slick.Input;
 public class InputState {
     
     private Game g;
+    private boolean mouseRotate;
+    private boolean mouseDynamic;
  
     public InputState(Game g) {
         this.g = g;
+        this.mouseDynamic = false;
     }
     
        /**
@@ -24,11 +27,13 @@ public class InputState {
             System.exit(0);
         }
         if (gc.getInput().isKeyPressed(Input.KEY_SPACE)) {
-            g.toggleMouseDynamic();
+            toggleMouseDynamic(gc);
         }
-        if (g.getMouseDynamic()) {
-            g.getUserRects()[0].setCenterX(gc.getInput().getMouseX());
-            g.getUserRects()[0].setCenterY(gc.getInput().getMouseY());
+        if (gc.getInput().isKeyPressed(Input.KEY_R)) {
+            mouseRotate = !mouseRotate;
+        }
+        if (getMouseDynamic()) {
+            mouseHandle(gc);
         } else {
             if (getMoveUp()) {
                 moveUp();
@@ -43,6 +48,37 @@ public class InputState {
                 moveRight();
             }
         }
+    }
+    
+    private void mouseHandle(GameContainer gc) {
+        int x = gc.getInput().getMouseX();
+        int y = gc.getInput().getMouseY();
+
+            g.getUserRects()[0].setCenterX(gc.getInput().getMouseX());
+            g.getUserRects()[0].setCenterY(gc.getInput().getMouseY());
+            if (mouseRotate) {
+                g.getUserRects()[1].setCenterX(gc.getWidth()-gc.getInput().getMouseX());
+                g.getUserRects()[1].setCenterY(gc.getHeight()-gc.getInput().getMouseY());
+            } else {
+                g.getUserRects()[1].setCenterX(gc.getWidth()-gc.getInput().getMouseX());
+                g.getUserRects()[1].setCenterY(gc.getInput().getMouseY());
+            }
+    }
+    
+    public void toggleMouseDynamic(GameContainer gc) {
+        if (g.getUserRects()[0].contains(gc.getInput().getMouseX(), 
+                gc.getInput().getMouseY())) {
+            System.out.println("includes");
+            mouseDynamic = !mouseDynamic;        
+        } else if (g.getUserRects()[1].contains(gc.getInput().getMouseX(), 
+                gc.getInput().getMouseY())) {
+            mouseDynamic = !mouseDynamic;        
+        }
+        
+    }
+    
+    private boolean getMouseDynamic() {
+        return mouseDynamic;
     }
     
     private boolean getMoveUp() {

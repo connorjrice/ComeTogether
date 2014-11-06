@@ -24,7 +24,7 @@ public class Game extends BasicGame {
     private GUIState guiState;
     private AngelCodeFont arialFont;
     private boolean keys[];
-    private boolean mouseDynamic;
+
     private int win, lose;
     private Shape[] userRects;
     private Shape[] barriers;
@@ -43,11 +43,10 @@ public class Game extends BasicGame {
         this.guiState = new GUIState(this);
         this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
         this.keys = new boolean[256];
-        this.mouseDynamic = false;
+
         createUserRect();
         setInitialUserRectPosition();
         this.barriers = obstacleState.getBarriers();
-        guiState.createGUI();
     }
     
 
@@ -60,6 +59,7 @@ public class Game extends BasicGame {
 
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
+//        guiState.createGUI(gc, g);
         initialRender(g);
         drawString(20, 20, "Win: " + win); 
         drawString(20, 50, "Lose: " + lose);
@@ -167,16 +167,12 @@ public class Game extends BasicGame {
         return userRects;
     }
     
-    public void toggleMouseDynamic() {
-        mouseDynamic = !mouseDynamic;
-    }
-    
-    public boolean getMouseDynamic() {
-        return mouseDynamic;
-    }
-    
     public GameContainer getGameContainer() {
         return gameContainer;
+    }
+    
+    public Graphics getGraphics() {
+        return gameContainer.getGraphics();
     }
     
     public AngelCodeFont getFont() {
