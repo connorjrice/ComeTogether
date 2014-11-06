@@ -1,6 +1,5 @@
 package cometogether;
 
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AngelCodeFont;
@@ -8,7 +7,6 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -20,10 +18,11 @@ import org.newdawn.slick.geom.Shape;
 
 public class Game extends BasicGame {
     
-    private GameContainer gC;
-    private ObstacleState oS;
-    private InputState iS;
-    private AngelCodeFont aF;
+    private GameContainer gameContainer;
+    private ObstacleState obstacleState;
+    private InputState inputState;
+    private GUIState guiState;
+    private AngelCodeFont arialFont;
     private boolean keys[];
     private boolean mouseDynamic;
     private int win, lose;
@@ -38,23 +37,24 @@ public class Game extends BasicGame {
     
     @Override
     public void init(GameContainer gc) throws SlickException {
-        this.gC = gc;
-        this.oS = new ObstacleState(this);
-        this.iS = new InputState(this);
-        this.aF = new AngelCodeFont("arial.fnt", "arial_0.tga");
+        this.gameContainer = gc;
+        this.obstacleState = new ObstacleState(this);
+        this.inputState = new InputState(this);
+        this.guiState = new GUIState(this);
+        this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
         this.keys = new boolean[256];
         this.mouseDynamic = false;
         createUserRect();
         setInitialUserRectPosition();
-        this.barriers = oS.getBarriers();
-
+        this.barriers = obstacleState.getBarriers();
+        guiState.createGUI();
     }
     
 
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
-        iS.inputHandle(gc);
+        inputState.inputHandle(gc);
         checkCollisions(gc);
     }
 
@@ -87,8 +87,8 @@ public class Game extends BasicGame {
 
     
     private void setInitialUserRectPosition() {
-        userRects[0].setLocation(10, gC.getHeight()/2);
-        userRects[1].setLocation(gC.getWidth()-60, gC.getHeight()/2);
+        userRects[0].setLocation(10, gameContainer.getHeight()/2);
+        userRects[1].setLocation(gameContainer.getWidth()-60, gameContainer.getHeight()/2);
     }
     
     /**
@@ -98,9 +98,8 @@ public class Game extends BasicGame {
      * @param text 
      */
     private void drawString(int x, int y, String text) {
-        aF.drawString(x, y, text);
+        arialFont.drawString(x, y, text);
     }
-    
      
     private void checkCollisions(GameContainer gc) {
         if (checkCollision(userRects[0]) | checkCollision(userRects[1])) {
@@ -108,7 +107,8 @@ public class Game extends BasicGame {
                 lose++;
                 gc.reinit();
             } catch (SlickException ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Game.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
         if (userRects[0].intersects(userRects[1])) {
@@ -116,7 +116,8 @@ public class Game extends BasicGame {
                 win++;
                 gc.reinit();
             } catch (SlickException ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Game.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }
@@ -134,7 +135,7 @@ public class Game extends BasicGame {
         if (high) {
             return y > 1;
         } else {
-            return y < gC.getHeight() - 51;
+            return y < gameContainer.getHeight() - 51;
         }
     }
     
@@ -142,7 +143,7 @@ public class Game extends BasicGame {
         if (right) {
             return x > 1;
         } else {
-            return x < gC.getWidth()-51;
+            return x < gameContainer.getWidth()-51;
         }
     }
     
@@ -155,11 +156,11 @@ public class Game extends BasicGame {
     }
     
     public int getHeight() {
-        return gC.getHeight();
+        return gameContainer.getHeight();
     }
     
     public int getWidth() {
-        return gC.getWidth();
+        return gameContainer.getWidth();
     }
     
     public Shape[] getUserRects() {
@@ -174,6 +175,14 @@ public class Game extends BasicGame {
         return mouseDynamic;
     }
     
+    public GameContainer getGameContainer() {
+        return gameContainer;
+    }
+    
+    public AngelCodeFont getFont() {
+        return arialFont;
+    }
+            
     @Override
     public void keyPressed(int key, char c) {
         keys[key] = true;
@@ -183,6 +192,5 @@ public class Game extends BasicGame {
     public void keyReleased(int key, char c) {
         keys[key] = false;
     }
-    
     
 }

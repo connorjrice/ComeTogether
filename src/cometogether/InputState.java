@@ -5,7 +5,7 @@ import org.newdawn.slick.Input;
 
 /**
  *
- * @author Connor
+ * @author Connor Rice
  */
 public class InputState {
     

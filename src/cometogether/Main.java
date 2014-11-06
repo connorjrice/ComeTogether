@@ -20,7 +20,7 @@ public class Main {
         {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new Game("Come Together"));
-            appgc.setDisplayMode(640, 480, false);
+            appgc.setDisplayMode(1920, 1080, true);
             appgc.setShowFPS(false);
             appgc.start();
         }
