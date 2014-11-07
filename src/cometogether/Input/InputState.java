@@ -6,6 +6,7 @@ import org.newdawn.slick.Input;
 
 /**
  * Input handling
+ * TODO: Fix bug where clicking on square sets location to center
  * @author Connor Rice
  */
 public class InputState {
@@ -15,6 +16,7 @@ public class InputState {
     private KeyboardState keyboardState;
     private MouseState mouseState;
     private int width, height;
+    private boolean[] keys;
     private int lastMouseX, lastMouseY;
     private boolean isRotate;
     private boolean mouseDynamic;
@@ -25,6 +27,7 @@ public class InputState {
         this.keyboardState = new KeyboardState(g, this);
         this.mouseState = new MouseState(g, this);
         this.width = g.getWidth();
+        this.keys = new boolean[256];
         isRotate = false;
         this.height = g.getHeight() - 25; // Modified for edge detection
         this.mouseDynamic = false;
@@ -34,9 +37,7 @@ public class InputState {
      * Handles all keyboard/mouse/touch input.
      */
     public void inputHandle() {
-        if (g.getKeys()[Input.KEY_ESCAPE]) {
-            g.exitGame();
-        }
+
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
             toggleMouseDynamic();
         }
@@ -117,6 +118,14 @@ public class InputState {
         } else {
             return x < gameContainer.getWidth()-51;
         }
+    }
+    
+    public void setKey(int i, boolean b) {
+        keys[i] = b;
+    }
+    
+    public boolean getKey(int i) {
+        return keys[i];
     }
  
  }

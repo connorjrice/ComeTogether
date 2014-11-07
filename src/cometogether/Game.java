@@ -14,7 +14,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -32,8 +31,6 @@ public class Game extends BasicGame {
     private GraphicsState graphicsState;
     private GUIState guiState;
     private AngelCodeFont arialFont;
-    private boolean keys[];
-
     private int win, lose;
 
 
@@ -53,12 +50,9 @@ public class Game extends BasicGame {
         this.guiState = new GUIState(this);
         this.graphicsState = new GraphicsState(this);
         this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
-        this.keys = new boolean[256];
         userState.createUserRect();
         obstacleState.createBarriers();
     }
-    
-
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
@@ -89,8 +83,6 @@ public class Game extends BasicGame {
         }
     }
     
-
-    
     /**
      * Uses the AngelCodeFont to draw a string at the specified position.
      * @param x
@@ -100,7 +92,6 @@ public class Game extends BasicGame {
     private void drawString(int x, int y, String text) {
         arialFont.drawString(x, y, text);
     }
-     
    
     public void incWin() {
         try {
@@ -118,11 +109,6 @@ public class Game extends BasicGame {
         } catch (SlickException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    
-    public boolean[] getKeys() {
-        return keys;
     }
     
     public int getWin() {
@@ -163,12 +149,12 @@ public class Game extends BasicGame {
             
     @Override
     public void keyPressed(int key, char c) {
-        keys[key] = true;
+        inputState.setKey(key, true);
     }
     
     @Override
     public void keyReleased(int key, char c) {
-        keys[key] = false;
+        inputState.setKey(key, false);
     }    
     
 

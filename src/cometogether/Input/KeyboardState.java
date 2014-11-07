@@ -22,6 +22,9 @@ public class KeyboardState {
     }
     
     public void keyboardHandle() {
+        if (iS.getKey(Input.KEY_ESCAPE)) {
+            g.exitGame();
+        }
         if (getMoveUp()) {
             moveUpKeyboard();
         }
@@ -37,22 +40,22 @@ public class KeyboardState {
     }
        
     private boolean getMoveUp() {
-        return g.getKeys()[Input.KEY_W] | g.getKeys()[Input.KEY_UP] &&
+        return iS.getKey(Input.KEY_W)| iS.getKey(Input.KEY_UP)&&
                 iS.getYBound(g.getUserRects()[0].getY(), true);
     }
 
     private boolean getMoveDown() {
-        return g.getKeys()[Input.KEY_S] | g.getKeys()[Input.KEY_DOWN] &&
+        return iS.getKey(Input.KEY_S)| iS.getKey(Input.KEY_DOWN)&&
                 iS.getYBound(g.getUserRects()[0].getY(), false);
     }
     
     private boolean getMoveLeft() {
-        return g.getKeys()[Input.KEY_A] | g.getKeys()[Input.KEY_LEFT] &&
+        return iS.getKey(Input.KEY_A)| iS.getKey(Input.KEY_LEFT)&&
                 iS.getXBound(g.getUserRects()[0].getX(), true);
     }
     
     private boolean getMoveRight() {
-        return g.getKeys()[Input.KEY_D] | g.getKeys()[Input.KEY_RIGHT] &&
+        return iS.getKey(Input.KEY_D)| iS.getKey(Input.KEY_RIGHT)&&
                 iS.getXBound(g.getUserRects()[0].getX(), false);
     }
     
