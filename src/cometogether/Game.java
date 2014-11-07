@@ -21,6 +21,7 @@ public class Game extends BasicGame {
     private GameContainer gameContainer;
     private ObstacleState obstacleState;
     private InputState inputState;
+    private GraphicsState graphicsState;
     private GUIState guiState;
     private AngelCodeFont arialFont;
     private boolean keys[];
@@ -41,6 +42,7 @@ public class Game extends BasicGame {
         this.obstacleState = new ObstacleState(this);
         this.inputState = new InputState(this);
         this.guiState = new GUIState(this);
+        this.graphicsState = new GraphicsState(this);
         this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
         this.keys = new boolean[256];
 
@@ -53,7 +55,7 @@ public class Game extends BasicGame {
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
-        inputState.inputHandle(gc);
+        inputState.inputHandle();
         checkCollisions(gc);
     }
 
@@ -131,21 +133,7 @@ public class Game extends BasicGame {
         return false;
     }
     
-    public boolean getYBound(float y, boolean high) {
-        if (high) {
-            return y > 1;
-        } else {
-            return y < gameContainer.getHeight() - 51;
-        }
-    }
-    
-    public boolean getXBound(float x, boolean right) {
-        if (right) {
-            return x > 1;
-        } else {
-            return x < gameContainer.getWidth()-51;
-        }
-    }
+
     
     public boolean[] getKeys() {
         return keys;
@@ -178,6 +166,10 @@ public class Game extends BasicGame {
     public AngelCodeFont getFont() {
         return arialFont;
     }
+    
+    public void exitGame() {
+        System.exit(0);
+    }
             
     @Override
     public void keyPressed(int key, char c) {
@@ -187,6 +179,7 @@ public class Game extends BasicGame {
     @Override
     public void keyReleased(int key, char c) {
         keys[key] = false;
-    }
+    }    
     
+
 }
