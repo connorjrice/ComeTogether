@@ -21,6 +21,9 @@ public class UserState {
     
     private Shape[] userRects;
     
+    /**
+     * Creates 2 rectangles, calls function to set starting position.
+     */
     public void createUserRect() {
         this.userRects = new Shape[] {new Rectangle(50, 50, 50, 50),
             new Rectangle(50, 50, 50, 50)};

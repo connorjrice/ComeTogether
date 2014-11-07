@@ -1,9 +1,6 @@
 package cometogether.Gameplay;
 
 import cometogether.Game;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -18,15 +15,28 @@ public class CollisionState {
         this.g = g;
     }
     
-     public void checkCollisions() {
+    /**
+     * Checks to see if the user has collided with the other rectangle, or with
+     * a barrier.
+     * 
+     * This is where the end of the game is initiated.
+     */
+    public void checkCollisions() {
         if (checkBarrierCollision(g.getUserRects())) {
             g.incLose();
+            g.restart();
         }
-        if (g.getUserRects()[0].intersects(g.getUserRects()[1])) {
+        if (checkIntersection(g.getUserRects())) {
             g.incWin();
+            g.restart();
         }
     }
 
+    /**
+     * Checks to see whether or not the userRects have collided with a barrier.
+     * @param s
+     * @return 
+     */
     private boolean checkBarrierCollision(Shape[] s) {
         for (Shape barrier : g.getBarriers()) {
             for (Shape userRect : s) {
@@ -39,6 +49,11 @@ public class CollisionState {
         return false;
     } 
     
+    /**
+     * Checks to see if the user rectangles intersect each other.
+     * @param s
+     * @return 
+     */
     private boolean checkIntersection(Shape[] s) {
         return s[0].intersects(s[1]);
     }

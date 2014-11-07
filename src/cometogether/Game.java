@@ -16,7 +16,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
 /**
- *
  * @author Connor Rice
  */
 
@@ -38,6 +37,17 @@ public class Game extends BasicGame {
         this.lose = 0;
     }
     
+    /**
+     * Init states: obstacleState, userState, collisionState, inputState, 
+     *              graphicsState, guiState
+     * 
+     * Init resorc: gameContainer
+     * 
+     * Calls: userState.createUserRect(), obsctacleState.createBarriers().
+     * 
+     * @param gc GameContainer
+     * @throws SlickException 
+     */
     @Override
     public void init(GameContainer gc) throws SlickException {
         this.gameContainer = gc;
@@ -51,91 +61,155 @@ public class Game extends BasicGame {
         obstacleState.createBarriers();
     }
 
+    /**
+     * Calls for input and collision handling.
+     * @param gc
+     * @param i
+     * @throws SlickException 
+     */
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
         inputState.inputHandle();
         collisionState.checkCollisions();
     }
 
+    /**
+     * Calls initialRender in graphicsState
+     * @param gc
+     * @param g
+     * @throws SlickException 
+     */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-//        guiState.createGUI(gc, g);
+        //guiState.createGUI(gc, g);
         graphicsState.initialRender(g);
 
     }
-   
+    
+   /**
+    * Increments win counter.
+    */
     public void incWin() {
-        try {
-            win++;
-            gameContainer.reinit();
-        } catch (SlickException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        win++;
     }
     
+    /**
+     * Increments loss counter.
+     */
     public void incLose() {
+        lose++;
+    }
+    
+    /**
+     * Reinit game.
+     */
+    public void restart() {
         try {
-            lose++;
             gameContainer.reinit();
         } catch (SlickException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    /**
+     * @return number of user wins
+     */
     public int getWin() {
         return win;
     }
     
+    /**
+     * @return int number of user losses
+     */
     public int getLose() {
         return lose;
     }
     
+    /**
+     * @return int height of window
+     */
     public int getHeight() {
         return gameContainer.getHeight();
     }
     
+    /**
+     * @return int width of window
+     */
     public int getWidth() {
         return gameContainer.getWidth();
     }
     
+    /**
+     * @return Shape[] userRectangles, controlled by used
+     */
     public Shape[] getUserRects() {
         return userState.getUserRects();
     }
     
+    /**
+     * @return Shape[] barriers that userRect collide with
+     */
     public Shape[] getBarriers() {
         return obstacleState.getBarriers();
     }
     
+    /**
+     * @return UserState userState
+     */
     public UserState getUserState() {
         return userState;
     }
     
+    /**
+     * @return ObstacleState obstacleState
+     */
     public ObstacleState getObstacleState() {
         return obstacleState;
     }
     
+    /**
+     * @return GameContainer gameContainer
+     */
     public GameContainer getGameContainer() {
         return gameContainer;
     }
     
+    /**
+     * @return Graphics from gameContainer
+     */
     public Graphics getGraphics() {
         return gameContainer.getGraphics();
     }
     
-    
+    /**
+     * @return AngelCodeFont from GraphicsState
+     */
     public AngelCodeFont getFont() {
         return graphicsState.getFont();
     }
     
+    /**
+     * Exits game with system code 0
+     */
     public void exitGame() {
         System.exit(0);
     }
             
+    /**
+     * Updates keys[key] in InputState to true
+     * @param key
+     * @param c 
+     */
     @Override
     public void keyPressed(int key, char c) {
         inputState.setKey(key, true);
     }
     
+    /**
+     * Updates keys[key] to false
+     * @param key
+     * @param c 
+     */
     @Override
     public void keyReleased(int key, char c) {
         inputState.setKey(key, false);

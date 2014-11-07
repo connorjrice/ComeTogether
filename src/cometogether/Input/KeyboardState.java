@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cometogether.Input;
 
 import cometogether.Game;
@@ -21,6 +16,9 @@ public class KeyboardState {
         this.iS = iS;
     }
     
+    /**
+     * Handles all movement initiated by the keyboard.
+     */
     public void movementHandle() {
         if (getMoveUp()) {
             moveUpKeyboard();
@@ -36,12 +34,18 @@ public class KeyboardState {
         } 
     }
     
+    /**
+     * Handles non-movement related input initiated by keyboard.
+     */
     public void inputHandle() {
         if (iS.getKey(Input.KEY_ESCAPE)) {
             g.exitGame();
         }
     }
-       
+    
+    /**
+     * @return true if allowed to move upwards using keyboard
+     */
     private boolean getMoveUp() {
         return iS.getKey(Input.KEY_W)| iS.getKey(Input.KEY_UP)&&
                 iS.getYBound(g.getUserRects()[0].getY(), true);

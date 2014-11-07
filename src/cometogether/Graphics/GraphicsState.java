@@ -55,6 +55,9 @@ public class GraphicsState {
         arialFont.drawString(x, y, text);
     }
     
+    /**
+     * @return AngelCodeFont (currently Arial)
+     */
     public AngelCodeFont getFont() {
         return arialFont;
     }

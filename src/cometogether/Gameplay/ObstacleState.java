@@ -20,6 +20,9 @@ public class ObstacleState {
         this.g = g;
     }
     
+    /**
+     * Creates barriers based on g.getWin()
+     */
     public void createBarriers() {
         barriers = new Shape[g.getWin()+1];
         for (int i = 0; i < g.getWin()+1; i++) {
@@ -27,7 +30,7 @@ public class ObstacleState {
         }
     }
     
-        /**
+    /**
      * Creates a new barrier shape that doesn't intersect any other barrier.
      * @param i 
      */
@@ -48,7 +51,9 @@ public class ObstacleState {
         r.setSeed(System.nanoTime());
     }
     
-    
+    /**
+     * @return Shape[] all barriers
+     */
     public Shape[] getBarriers() {
         return barriers;
     }
