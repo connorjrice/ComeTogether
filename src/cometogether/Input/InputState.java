@@ -37,7 +37,6 @@ public class InputState {
      * Handles all keyboard/mouse/touch input.
      */
     public void inputHandle() {
-
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
             toggleMouseDynamic();
         }
@@ -47,8 +46,10 @@ public class InputState {
         if (getMouseDynamic()) {
             mouseState.mouseHandle();
         } else {
-            keyboardState.keyboardHandle();
+            keyboardState.movementHandle();
         }
+        keyboardState.inputHandle();
+
     }
     
     public void moveFirstShape() {

@@ -21,10 +21,7 @@ public class KeyboardState {
         this.iS = iS;
     }
     
-    public void keyboardHandle() {
-        if (iS.getKey(Input.KEY_ESCAPE)) {
-            g.exitGame();
-        }
+    public void movementHandle() {
         if (getMoveUp()) {
             moveUpKeyboard();
         }
@@ -37,6 +34,12 @@ public class KeyboardState {
         if (getMoveRight()) {
             moveRightKeyboard();
         } 
+    }
+    
+    public void inputHandle() {
+        if (iS.getKey(Input.KEY_ESCAPE)) {
+            g.exitGame();
+        }
     }
        
     private boolean getMoveUp() {

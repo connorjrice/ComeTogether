@@ -21,7 +21,7 @@ public class Main {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new Game("Come Together"));
             appgc.setDisplayMode(640, 480, false);
-            appgc.setShowFPS(false);
+            appgc.setShowFPS(true);
             appgc.start();
         }
         catch (SlickException ex)
