@@ -1,4 +1,6 @@
-package cometogether;
+package cometogether.Graphics;
+
+import cometogether.Game;
 
 /**
  *

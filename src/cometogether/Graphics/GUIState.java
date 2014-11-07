@@ -1,5 +1,6 @@
-package cometogether;
+package cometogether.Graphics;
 
+import cometogether.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.gui.*;

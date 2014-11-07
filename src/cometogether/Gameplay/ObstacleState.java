@@ -1,5 +1,6 @@
-package cometogether;
+package cometogether.Gameplay;
 
+import cometogether.Game;
 import java.util.Random;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;

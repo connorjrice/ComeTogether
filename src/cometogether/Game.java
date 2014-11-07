@@ -1,5 +1,9 @@
 package cometogether;
 
+import cometogether.Graphics.GUIState;
+import cometogether.Graphics.GraphicsState;
+import cometogether.Gameplay.ObstacleState;
+import cometogether.Input.InputState;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AngelCodeFont;
