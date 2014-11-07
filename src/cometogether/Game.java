@@ -168,6 +168,13 @@ public class Game extends BasicGame {
     }
     
     /**
+     * @return CollisionState collisionState
+     */
+    public CollisionState getCollisionState() {
+        return collisionState;
+    }
+    
+    /**
      * @return GameContainer gameContainer
      */
     public GameContainer getGameContainer() {

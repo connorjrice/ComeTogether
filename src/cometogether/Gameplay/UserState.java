@@ -12,14 +12,15 @@ public class UserState {
     
     private Game g;
     private int width, height;
+    private Shape[] userRects;
+
     
     public UserState(Game g) {
         this.g = g;
         this.width = g.getWidth();
         this.height = g.getHeight();
+
     }
-    
-    private Shape[] userRects;
     
     /**
      * Creates 2 rectangles, calls function to set starting position.
@@ -29,7 +30,6 @@ public class UserState {
             new Rectangle(50, 50, 50, 50)};
         setInitialUserRectPosition();
     }
-
     
     private void setInitialUserRectPosition() {
         userRects[0].setLocation(10, height/2);
@@ -40,5 +40,7 @@ public class UserState {
         return userRects;
     }
     
-    
+    public int getUserRectRadius() {
+        return 100;
+    }
 }

@@ -1,6 +1,7 @@
 package cometogether.Input;
 
 import cometogether.Game;
+import cometogether.Gameplay.CollisionState;
 import org.newdawn.slick.Input;
 
 /**
@@ -9,34 +10,36 @@ import org.newdawn.slick.Input;
  */
 public class MouseState {
     
-    private Game g;
-    private InputState iS;
+    private Game game;
+    private CollisionState collisionState;
+    private InputState inputState;
     private Input input;
     private int width, height;
     
-    public MouseState(Game g, InputState iS) {
-        this.g = g;
-        this.iS = iS;
-        this.input = g.getGameContainer().getInput();
-        this.width = g.getWidth();
-        this.height = g.getHeight();
+    public MouseState(Game _game, InputState _inputState) {
+        this.game = _game;
+        this.inputState = _inputState;
+        this.collisionState = game.getCollisionState();
+        this.input = game.getGameContainer().getInput();
+        this.width = game.getWidth();
+        this.height = game.getHeight();
     }
     
     /**
      * Handles mouse movement, including rotation. 
      */
     public void mouseHandle() {
-        if (getMouseMovementAllowed()) {
+        if (oldGetMouseMovementAllowed()) {
             mouseHandler();
         }
     }
     
     private void mouseHandler() {
-        iS.moveFirstShape();
-        if (iS.getIsRotate()) {
-            iS.rotateShapes();
+        inputState.moveFirstShape();
+        if (inputState.getIsRotate()) {
+            inputState.rotateShapes();
         } else {
-            iS.mirrorShapes();
+            inputState.mirrorShapes();
         }
         updateMouseLocation();
     }
@@ -44,7 +47,7 @@ public class MouseState {
     /**
      * @return true if mouse position is within bounds of screen.
      */
-    private boolean getMouseMovementAllowed() {
+    private boolean oldGetMouseMovementAllowed() {
         return (25 < input.getMouseX() &&
                 input.getMouseX() < width &&
                 25 < input.getMouseY() &&
@@ -52,8 +55,10 @@ public class MouseState {
                 );
     }
     
+    
+    
       private void updateMouseLocation() {
-        iS.setLastMousePos(input.getMouseX(), input.getMouseY());
+        inputState.setLastMousePos(input.getMouseX(), input.getMouseY());
     }
     
 }

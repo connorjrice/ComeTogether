@@ -1,6 +1,7 @@
 package cometogether.Gameplay;
 
 import cometogether.Game;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -10,9 +11,12 @@ import org.newdawn.slick.geom.Shape;
 public class CollisionState {
     
     private Game g;
+    private Shape windowBoundary;
     
     public CollisionState(Game g) {
         this.g = g;
+        int userRectRadius = g.getUserState().getUserRectRadius();
+        this.windowBoundary = new Rectangle(0,0,590,430);
     }
     
     /**
@@ -56,6 +60,10 @@ public class CollisionState {
      */
     private boolean checkIntersection(Shape[] s) {
         return s[0].intersects(s[1]);
+    }
+    
+    public Shape getWindowBoundary() {
+        return windowBoundary;
     }
     
 }

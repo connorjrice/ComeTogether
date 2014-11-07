@@ -1,6 +1,7 @@
 package cometogether.Graphics;
 
 import cometogether.Game;
+import cometogether.Gameplay.CollisionState;
 import cometogether.Gameplay.ObstacleState;
 import cometogether.Gameplay.UserState;
 import org.newdawn.slick.AngelCodeFont;
@@ -19,11 +20,13 @@ public class GraphicsState {
     private UserState userState;
     private ObstacleState obstacleState;
     private AngelCodeFont arialFont;
+    private CollisionState collisionState;
     
     public GraphicsState(Game g) throws SlickException {
         this.game = g;
         this.userState = g.getUserState();
         this.obstacleState = g.getObstacleState();
+        this.collisionState = g.getCollisionState();
         this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
         
     }

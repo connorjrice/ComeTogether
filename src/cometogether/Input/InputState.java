@@ -15,6 +15,7 @@ public class InputState {
     private GameContainer gameContainer;
     private KeyboardState keyboardState;
     private MouseState mouseState;
+    private Input input;
     private int width, height;
     private boolean[] keys;
     private int lastMouseX, lastMouseY;
@@ -24,6 +25,7 @@ public class InputState {
     public InputState(Game g) {
         this.g = g;
         this.gameContainer = g.getGameContainer();
+        this.input = gameContainer.getInput();
         this.keyboardState = new KeyboardState(g, this);
         this.mouseState = new MouseState(g, this);
         this.width = g.getWidth();
@@ -37,10 +39,10 @@ public class InputState {
      * Handles all keyboard/mouse/touch input.
      */
     public void inputHandle() {
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
+        if (input.isKeyPressed(Input.KEY_SPACE)) {
             toggleMouseDynamic();
         }
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_R)) {
+        if (input.isKeyPressed(Input.KEY_R)) {
             toggleRotate();
         }
         if (getMouseDynamic()) {
@@ -53,18 +55,18 @@ public class InputState {
     }
     
     public void moveFirstShape() {
-        g.getUserRects()[0].setCenterX(gameContainer.getInput().getMouseX());
-        g.getUserRects()[0].setCenterY(gameContainer.getInput().getMouseY());
+        g.getUserRects()[0].setCenterX(input.getMouseX());
+        g.getUserRects()[0].setCenterY(input.getMouseY());
     }
     
     public void rotateShapes() {
-        g.getUserRects()[1].setCenterX(g.getUserRects()[1].getCenterX()+(lastMouseX-gameContainer.getInput().getMouseX()));
-        g.getUserRects()[1].setCenterY(g.getUserRects()[1].getCenterY()+(lastMouseY-gameContainer.getInput().getMouseY()));
+        g.getUserRects()[1].setCenterX(g.getUserRects()[1].getCenterX()+(lastMouseX-input.getMouseX()));
+        g.getUserRects()[1].setCenterY(g.getUserRects()[1].getCenterY()+(lastMouseY-input.getMouseY()));
     }
     
     public void mirrorShapes() {
-        g.getUserRects()[1].setCenterX(g.getUserRects()[1].getCenterX()-(gameContainer.getInput().getMouseX()-lastMouseX));
-        g.getUserRects()[1].setCenterY(g.getUserRects()[1].getCenterY()+(gameContainer.getInput().getMouseY()-lastMouseY));
+        g.getUserRects()[1].setCenterX(g.getUserRects()[1].getCenterX()-(input.getMouseX()-lastMouseX));
+        g.getUserRects()[1].setCenterY(g.getUserRects()[1].getCenterY()+(input.getMouseY()-lastMouseY));
     }
     
     /**
@@ -79,13 +81,13 @@ public class InputState {
      * @param gc GameContainer
      */
     public void toggleMouseDynamic() {
-        if (g.getUserRects()[0].contains(gameContainer.getInput().getMouseX(), 
-                gameContainer.getInput().getMouseY()) || 
-                g.getUserRects()[1].contains(gameContainer.getInput().getMouseX(), 
-                gameContainer.getInput().getMouseY())) {
+        if (g.getUserRects()[0].contains(input.getMouseX(), 
+                input.getMouseY()) || 
+                g.getUserRects()[1].contains(input.getMouseX(), 
+                input.getMouseY())) {
             mouseDynamic = !mouseDynamic;
-            lastMouseX = gameContainer.getInput().getMouseX();
-            lastMouseY = gameContainer.getInput().getMouseY();
+            lastMouseX = input.getMouseX();
+            lastMouseY = input.getMouseY();
         }
     }
     
