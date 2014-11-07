@@ -20,7 +20,7 @@ public class ObstacleState {
         this.g = g;
     }
     
-    private void createBarriers() {
+    public void createBarriers() {
         barriers = new Shape[g.getWin()+1];
         for (int i = 0; i < g.getWin()+1; i++) {
             createNewBarrier(i);
@@ -50,7 +50,6 @@ public class ObstacleState {
     
     
     public Shape[] getBarriers() {
-        createBarriers();
         return barriers;
     }
 }

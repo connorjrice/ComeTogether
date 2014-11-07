@@ -1,8 +1,10 @@
 package cometogether;
 
+import cometogether.Gameplay.CollisionState;
 import cometogether.Graphics.GUIState;
 import cometogether.Graphics.GraphicsState;
 import cometogether.Gameplay.ObstacleState;
+import cometogether.Gameplay.UserState;
 import cometogether.Input.InputState;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +26,8 @@ public class Game extends BasicGame {
     
     private GameContainer gameContainer;
     private ObstacleState obstacleState;
+    private UserState userState;
+    private CollisionState collisionState;
     private InputState inputState;
     private GraphicsState graphicsState;
     private GUIState guiState;
@@ -31,8 +35,7 @@ public class Game extends BasicGame {
     private boolean keys[];
 
     private int win, lose;
-    private Shape[] userRects;
-    private Shape[] barriers;
+
 
     public Game(String title) {
         super(title);
@@ -44,15 +47,15 @@ public class Game extends BasicGame {
     public void init(GameContainer gc) throws SlickException {
         this.gameContainer = gc;
         this.obstacleState = new ObstacleState(this);
+        this.userState = new UserState(this);
+        this.collisionState = new CollisionState(this);
         this.inputState = new InputState(this);
         this.guiState = new GUIState(this);
         this.graphicsState = new GraphicsState(this);
         this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
         this.keys = new boolean[256];
-
-        createUserRect();
-        setInitialUserRectPosition();
-        this.barriers = obstacleState.getBarriers();
+        userState.createUserRect();
+        obstacleState.createBarriers();
     }
     
 
@@ -60,7 +63,7 @@ public class Game extends BasicGame {
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
         inputState.inputHandle();
-        checkCollisions(gc);
+        collisionState.checkCollisions();
     }
 
     @Override
@@ -77,25 +80,16 @@ public class Game extends BasicGame {
      */
     private void initialRender(Graphics g) {
         g.setColor(Color.red);
-        g.draw(userRects[0]);
+        g.draw(userState.getUserRects()[0]);
         g.setColor(Color.green);
-        g.draw(userRects[1]);
+        g.draw(userState.getUserRects()[1]);
         g.setColor(Color.blue);
-        for (Shape s : barriers) {
+        for (Shape s : obstacleState.getBarriers()) {
             g.draw(s);
         }
     }
     
-    private void createUserRect() {
-        this.userRects = new Shape[] {new Rectangle(50, 50, 50, 50),
-            new Rectangle(50, 50, 50, 50)};
-    }
 
-    
-    private void setInitialUserRectPosition() {
-        userRects[0].setLocation(10, gameContainer.getHeight()/2);
-        userRects[1].setLocation(gameContainer.getWidth()-60, gameContainer.getHeight()/2);
-    }
     
     /**
      * Uses the AngelCodeFont to draw a string at the specified position.
@@ -107,36 +101,24 @@ public class Game extends BasicGame {
         arialFont.drawString(x, y, text);
     }
      
-    private void checkCollisions(GameContainer gc) {
-        if (checkCollision(userRects[0]) | checkCollision(userRects[1])) {
-            try {
-                lose++;
-                gc.reinit();
-            } catch (SlickException ex) {
-                Logger.getLogger(Game.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-        if (userRects[0].intersects(userRects[1])) {
-            try {
-                win++;
-                gc.reinit();
-            } catch (SlickException ex) {
-                Logger.getLogger(Game.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
+   
+    public void incWin() {
+        try {
+            win++;
+            gameContainer.reinit();
+        } catch (SlickException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    private boolean checkCollision(Shape s) {
-        for (Shape barrier : barriers) {
-            if (s.intersects(barrier)) {
-                return true;
-            }
+    public void incLose() {
+        try {
+            lose++;
+            gameContainer.reinit();
+        } catch (SlickException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
     }
-    
 
     
     public boolean[] getKeys() {
@@ -156,7 +138,11 @@ public class Game extends BasicGame {
     }
     
     public Shape[] getUserRects() {
-        return userRects;
+        return userState.getUserRects();
+    }
+    
+    public Shape[] getBarriers() {
+        return obstacleState.getBarriers();
     }
     
     public GameContainer getGameContainer() {
