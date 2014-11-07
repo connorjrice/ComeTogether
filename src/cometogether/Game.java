@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -30,7 +29,6 @@ public class Game extends BasicGame {
     private InputState inputState;
     private GraphicsState graphicsState;
     private GUIState guiState;
-    private AngelCodeFont arialFont;
     private int win, lose;
 
 
@@ -49,7 +47,6 @@ public class Game extends BasicGame {
         this.inputState = new InputState(this);
         this.guiState = new GUIState(this);
         this.graphicsState = new GraphicsState(this);
-        this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
         userState.createUserRect();
         obstacleState.createBarriers();
     }
@@ -63,34 +60,8 @@ public class Game extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 //        guiState.createGUI(gc, g);
-        initialRender(g);
-        drawString(20, 20, "Win: " + win); 
-        drawString(20, 50, "Lose: " + lose);
-    }
-    
-    /**
-     * Draws the user rectangles and barriers.
-     * @param g 
-     */
-    private void initialRender(Graphics g) {
-        g.setColor(Color.red);
-        g.draw(userState.getUserRects()[0]);
-        g.setColor(Color.green);
-        g.draw(userState.getUserRects()[1]);
-        g.setColor(Color.blue);
-        for (Shape s : obstacleState.getBarriers()) {
-            g.draw(s);
-        }
-    }
-    
-    /**
-     * Uses the AngelCodeFont to draw a string at the specified position.
-     * @param x
-     * @param y
-     * @param text 
-     */
-    private void drawString(int x, int y, String text) {
-        arialFont.drawString(x, y, text);
+        graphicsState.initialRender(g);
+
     }
    
     public void incWin() {
@@ -115,6 +86,10 @@ public class Game extends BasicGame {
         return win;
     }
     
+    public int getLose() {
+        return lose;
+    }
+    
     public int getHeight() {
         return gameContainer.getHeight();
     }
@@ -131,6 +106,14 @@ public class Game extends BasicGame {
         return obstacleState.getBarriers();
     }
     
+    public UserState getUserState() {
+        return userState;
+    }
+    
+    public ObstacleState getObstacleState() {
+        return obstacleState;
+    }
+    
     public GameContainer getGameContainer() {
         return gameContainer;
     }
@@ -139,8 +122,9 @@ public class Game extends BasicGame {
         return gameContainer.getGraphics();
     }
     
+    
     public AngelCodeFont getFont() {
-        return arialFont;
+        return graphicsState.getFont();
     }
     
     public void exitGame() {
@@ -156,6 +140,5 @@ public class Game extends BasicGame {
     public void keyReleased(int key, char c) {
         inputState.setKey(key, false);
     }    
-    
 
 }
