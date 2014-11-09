@@ -1,9 +1,11 @@
 package cometogether.Graphics;
 
-import cometogether.Game;
+import cometogether.Gameplay.Game;
 import cometogether.Gameplay.CollisionState;
 import cometogether.Gameplay.ObstacleState;
 import cometogether.Gameplay.UserState;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -22,13 +24,12 @@ public class GraphicsState {
     private AngelCodeFont arialFont;
     private CollisionState collisionState;
     
-    public GraphicsState(Game g) throws SlickException {
+    public GraphicsState(Game g) {
         this.game = g;
         this.userState = g.getUserState();
         this.obstacleState = g.getObstacleState();
         this.collisionState = g.getCollisionState();
-        this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
-        
+        initFont();
     }
     
     /**
@@ -36,7 +37,7 @@ public class GraphicsState {
      * @param g 
      */
     public void initialRender(Graphics g) {
-        g.setColor(Color.red);
+        /*g.setColor(Color.red);
         g.draw(userState.getUserRects()[0]);
         g.setColor(Color.green);
         g.draw(userState.getUserRects()[1]);
@@ -44,8 +45,17 @@ public class GraphicsState {
         for (Shape s : obstacleState.getBarriers()) {
             g.draw(s);
         }
+        */
         drawString(20, 20, "Win: " + game.getWin()); 
         drawString(20, 50, "Lose: " + game.getLose());
+    }
+    
+    private void initFont() {
+        try {
+            this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
+        } catch (SlickException ex) {
+            Logger.getLogger(GraphicsState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**

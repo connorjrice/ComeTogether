@@ -1,6 +1,6 @@
 package cometogether.Gameplay;
 
-import cometogether.Game;
+import cometogether.Gameplay.Objects.Entity;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -41,14 +41,13 @@ public class CollisionState {
      * @param s
      * @return 
      */
-    private boolean checkBarrierCollision(Shape[] s) {
-        for (Shape barrier : g.getBarriers()) {
-            for (Shape userRect : s) {
-                if (barrier.intersects(userRect)) {
+    private boolean checkBarrierCollision(Entity[] e) {
+        for (Entity barrier : g.getBarriers()) {
+            for (Entity collisionTarget : e) {
+                if (barrier.getShape().intersects(collisionTarget.getShape())) {
                         return true;
                 }
             }
-
         }
         return false;
     } 
@@ -58,8 +57,8 @@ public class CollisionState {
      * @param s
      * @return 
      */
-    private boolean checkIntersection(Shape[] s) {
-        return s[0].intersects(s[1]);
+    private boolean checkIntersection(Entity[] e) {
+        return e[0].getShape().intersects(e[1].getShape());
     }
     
     public Shape getWindowBoundary() {

@@ -1,6 +1,6 @@
 package cometogether.Input;
 
-import cometogether.Game;
+import cometogether.Gameplay.Game;
 import cometogether.Gameplay.CollisionState;
 import org.newdawn.slick.Input;
 

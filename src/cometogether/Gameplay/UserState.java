@@ -1,6 +1,7 @@
 package cometogether.Gameplay;
 
-import cometogether.Game;
+import cometogether.Gameplay.Objects.Entity;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -13,6 +14,7 @@ public class UserState {
     private Game g;
     private int width, height;
     private Shape[] userRects;
+    private Entity[] entities;
 
     
     public UserState(Game g) {
@@ -26,9 +28,15 @@ public class UserState {
      * Creates 2 rectangles, calls function to set starting position.
      */
     public void createUserRect() {
-        this.userRects = new Shape[] {new Rectangle(50, 50, 50, 50),
+        userRects = new Shape[] {new Rectangle(50, 50, 50, 50),
             new Rectangle(50, 50, 50, 50)};
         setInitialUserRectPosition();
+        entities = new Entity[] { new Entity(userRects[0], Color.red, true),
+            new Entity(userRects[1], Color.green, true)};
+    }
+    
+    public Entity createEntity(Shape s, Color c) {
+        return new Entity(s, c, true);
     }
     
     private void setInitialUserRectPosition() {
@@ -36,8 +44,8 @@ public class UserState {
         userRects[1].setLocation(width-60, height/2);
     }
     
-    public Shape[] getUserRects() {
-        return userRects;
+    public Entity[] getEntities() {
+        return entities;
     }
     
     public int getUserRectRadius() {

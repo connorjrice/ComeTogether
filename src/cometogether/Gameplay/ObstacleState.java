@@ -1,7 +1,8 @@
 package cometogether.Gameplay;
 
-import cometogether.Game;
+import cometogether.Gameplay.Objects.Entity;
 import java.util.Random;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -13,6 +14,7 @@ public class ObstacleState {
     
     private Game g;
     private Shape[] barriers;
+    private Entity[] entities;
     private Random r;
     
     public ObstacleState(Game g) {
@@ -25,8 +27,12 @@ public class ObstacleState {
      */
     public void createBarriers() {
         barriers = new Shape[g.getWin()+1];
+        entities = new Entity[g.getWin()+1];
         for (int i = 0; i < g.getWin()+1; i++) {
             createNewBarrier(i);
+        }
+        for (int i = 0; i < g.getWin()+1; i++) {
+            entities[i] = new Entity(barriers[i], Color.blue, true);
         }
     }
     
@@ -43,18 +49,15 @@ public class ObstacleState {
                 createNewBarrier(i);
             }
         }
-        for (Shape s : g.getUserRects()) {
-            if (barriers[i].intersects(s)) {
+        for (Entity e : g.getUserRects()) {
+            if (barriers[i].intersects(e.getShape())) {
                 createNewBarrier(i);
             }
         }
         r.setSeed(System.nanoTime());
     }
     
-    /**
-     * @return Shape[] all barriers
-     */
-    public Shape[] getBarriers() {
-        return barriers;
+    public Entity[] getEntities() {
+        return entities;
     }
 }

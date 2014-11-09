@@ -1,6 +1,7 @@
 
 package cometogether;
 
+import cometogether.Gameplay.Game;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
@@ -10,7 +11,7 @@ import org.newdawn.slick.SlickException;
  *
  * @author Connor
  */
-public class Main {
+public class GameMain {
 
     /**
      * @param args the command line arguments

@@ -1,6 +1,6 @@
 package cometogether.Input;
 
-import cometogether.Game;
+import cometogether.Gameplay.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 
@@ -55,18 +55,18 @@ public class InputState {
     }
     
     public void moveFirstShape() {
-        g.getUserRects()[0].setCenterX(input.getMouseX());
-        g.getUserRects()[0].setCenterY(input.getMouseY());
+        g.getUserRects()[0].getShape().setCenterX(input.getMouseX());
+        g.getUserRects()[0].getShape().setCenterY(input.getMouseY());
     }
     
     public void rotateShapes() {
-        g.getUserRects()[1].setCenterX(g.getUserRects()[1].getCenterX()+(lastMouseX-input.getMouseX()));
-        g.getUserRects()[1].setCenterY(g.getUserRects()[1].getCenterY()+(lastMouseY-input.getMouseY()));
+        g.getUserRects()[1].getShape().setCenterX(g.getUserRects()[1].getShape().getCenterX()+(lastMouseX-input.getMouseX()));
+        g.getUserRects()[1].getShape().setCenterY(g.getUserRects()[1].getShape().getCenterY()+(lastMouseY-input.getMouseY()));
     }
     
     public void mirrorShapes() {
-        g.getUserRects()[1].setCenterX(g.getUserRects()[1].getCenterX()-(input.getMouseX()-lastMouseX));
-        g.getUserRects()[1].setCenterY(g.getUserRects()[1].getCenterY()+(input.getMouseY()-lastMouseY));
+        g.getUserRects()[1].getShape().setCenterX(g.getUserRects()[1].getShape().getCenterX()-(input.getMouseX()-lastMouseX));
+        g.getUserRects()[1].getShape().setCenterY(g.getUserRects()[1].getShape().getCenterY()+(input.getMouseY()-lastMouseY));
     }
     
     /**
@@ -81,9 +81,9 @@ public class InputState {
      * @param gc GameContainer
      */
     public void toggleMouseDynamic() {
-        if (g.getUserRects()[0].contains(input.getMouseX(), 
+        if (g.getUserRects()[0].getShape().contains(input.getMouseX(), 
                 input.getMouseY()) || 
-                g.getUserRects()[1].contains(input.getMouseX(), 
+                g.getUserRects()[1].getShape().contains(input.getMouseX(), 
                 input.getMouseY())) {
             mouseDynamic = !mouseDynamic;
             lastMouseX = input.getMouseX();

@@ -1,11 +1,11 @@
-package cometogether;
+package cometogether.Gameplay;
 
-import cometogether.Gameplay.CollisionState;
+import cometogether.Gameplay.Objects.Entity;
 import cometogether.Graphics.GUIState;
 import cometogether.Graphics.GraphicsState;
-import cometogether.Gameplay.ObstacleState;
-import cometogether.Gameplay.UserState;
 import cometogether.Input.InputState;
+import cometogether.StartMenu.StartMenuState;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AngelCodeFont;
@@ -23,18 +23,22 @@ public class Game extends BasicGame {
     
     private GameContainer gameContainer;
     private ObstacleState obstacleState;
+    private StartMenuState startMenuState;
     private UserState userState;
     private CollisionState collisionState;
     private InputState inputState;
     private GraphicsState graphicsState;
     private GUIState guiState;
+    private ArrayList<Entity> entities;
     private int win, lose;
+    private boolean inGame;
 
 
     public Game(String title) {
         super(title);
         this.win = 0;
         this.lose = 0;
+
     }
     
     /**
@@ -51,6 +55,17 @@ public class Game extends BasicGame {
     @Override
     public void init(GameContainer gc) throws SlickException {
         this.gameContainer = gc;
+        this.startMenuState = new StartMenuState(this);
+        entities = new ArrayList<>();
+        beginGame();
+
+    }
+    
+    public void openStartMenu() {
+        
+    }
+    
+    public void beginGame() {
         this.obstacleState = new ObstacleState(this);
         this.userState = new UserState(this);
         this.collisionState = new CollisionState(this);
@@ -58,8 +73,11 @@ public class Game extends BasicGame {
         this.guiState = new GUIState(this);
         this.graphicsState = new GraphicsState(this);
         userState.createUserRect();
+        addEntities(userState.getEntities());
         obstacleState.createBarriers();
+        addEntities(obstacleState.getEntities());
     }
+    
 
     /**
      * Calls for input and collision handling.
@@ -81,9 +99,22 @@ public class Game extends BasicGame {
      */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-        //guiState.createGUI(gc, g);
-        graphicsState.initialRender(g);
-
+        for (Entity e : entities) {
+            if (e.isVisible()) {
+                e.render(gc, g);
+            }
+        }
+    }
+    
+    
+    public void addEntity(Entity e) {
+        entities.add(e);
+    }
+    
+    public void addEntities(Entity[] e) {
+        for (Entity ent : e) {
+            entities.add(ent);
+        }
     }
     
    /**
@@ -142,15 +173,15 @@ public class Game extends BasicGame {
     /**
      * @return Shape[] userRectangles, controlled by used
      */
-    public Shape[] getUserRects() {
-        return userState.getUserRects();
+    public Entity[] getUserRects() {
+        return userState.getEntities();
     }
     
     /**
      * @return Shape[] barriers that userRect collide with
      */
-    public Shape[] getBarriers() {
-        return obstacleState.getBarriers();
+    public Entity[] getBarriers() {
+        return obstacleState.getEntities();
     }
     
     /**
@@ -193,6 +224,10 @@ public class Game extends BasicGame {
      */
     public AngelCodeFont getFont() {
         return graphicsState.getFont();
+    }
+    
+    public void toggleInGame() {
+        inGame = !inGame;
     }
     
     /**
