@@ -16,7 +16,7 @@ import org.newdawn.slick.geom.Shape;
  *
  * @author Connor
  */
-public class GraphicsState {
+public class GameGUI {
     
     private Game game;
     private UserState userState;
@@ -24,7 +24,7 @@ public class GraphicsState {
     private AngelCodeFont arialFont;
     private CollisionState collisionState;
     
-    public GraphicsState(Game g) {
+    public GameGUI(Game g) {
         this.game = g;
         this.userState = g.getUserState();
         this.obstacleState = g.getObstacleState();
@@ -36,16 +36,7 @@ public class GraphicsState {
      * Draws the user rectangles and barriers.
      * @param g 
      */
-    public void initialRender(Graphics g) {
-        /*g.setColor(Color.red);
-        g.draw(userState.getUserRects()[0]);
-        g.setColor(Color.green);
-        g.draw(userState.getUserRects()[1]);
-        g.setColor(Color.blue);
-        for (Shape s : obstacleState.getBarriers()) {
-            g.draw(s);
-        }
-        */
+    public void drawWinLoss(Graphics g) {
         drawString(20, 20, "Win: " + game.getWin()); 
         drawString(20, 50, "Lose: " + game.getLose());
     }
@@ -54,7 +45,7 @@ public class GraphicsState {
         try {
             this.arialFont = new AngelCodeFont("arial.fnt", "arial_0.tga");
         } catch (SlickException ex) {
-            Logger.getLogger(GraphicsState.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GameGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
