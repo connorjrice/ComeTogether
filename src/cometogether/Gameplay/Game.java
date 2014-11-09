@@ -12,7 +12,6 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Shape;
 
 /**
  * @author Connor Rice
@@ -53,20 +52,20 @@ public class Game extends BasicGame {
     public void init(GameContainer gc) throws SlickException {
         this.gameContainer = gc;
         this.startMenuState = new StartMenuState(this);
+        this.inputState = new InputState(this);
         entities = new ArrayList<>();
-        beginGame();
-
+        openStartMenu();
     }
     
     public void openStartMenu() {
-        
+        addEntities(startMenuState.getEntities());
     }
     
     public void beginGame() {
         this.obstacleState = new ObstacleState(this);
         this.userState = new UserState(this);
         this.collisionState = new CollisionState(this);
-        this.inputState = new InputState(this);
+
         this.gameGUI = new GameGUI(this);
         userState.createUserRect();
         addEntities(userState.getEntities());
@@ -84,7 +83,9 @@ public class Game extends BasicGame {
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
         inputState.inputHandle();
-        collisionState.checkCollisions();
+        if (collisionState != null) {
+            collisionState.checkCollisions();
+        }
     }
 
     /**
@@ -95,10 +96,10 @@ public class Game extends BasicGame {
      */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-        gameGUI.drawWinLoss(g);
-        for (Entity e : entities) {
-            if (e.isVisible()) {
-                e.render(gc, g);
+        //gameGUI.drawWinLoss(g);
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).isVisible()) {
+                entities.get(i).render(gc, g);
             }
         }
     }
@@ -111,6 +112,16 @@ public class Game extends BasicGame {
     public void addEntities(Entity[] e) {
         for (Entity ent : e) {
             entities.add(ent);
+        }
+    }
+    
+    public void removeEntity(Entity e) {
+        entities.remove(e);
+    }
+    
+    public void removeEntities(Entity[] e) {
+        for (Entity ent : e) {
+            entities.remove(ent);
         }
     }
     
