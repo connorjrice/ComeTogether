@@ -1,8 +1,7 @@
 package cometogether.Gameplay;
 
 import cometogether.Gameplay.Objects.Entity;
-import cometogether.Graphics.GUIState;
-import cometogether.Graphics.GraphicsState;
+import cometogether.Graphics.GameGUI;
 import cometogether.Input.InputState;
 import cometogether.StartMenu.StartMenuState;
 import java.util.ArrayList;
@@ -27,8 +26,7 @@ public class Game extends BasicGame {
     private UserState userState;
     private CollisionState collisionState;
     private InputState inputState;
-    private GraphicsState graphicsState;
-    private GUIState guiState;
+    private GameGUI gameGUI;
     private ArrayList<Entity> entities;
     private int win, lose;
     private boolean inGame;
@@ -38,12 +36,11 @@ public class Game extends BasicGame {
         super(title);
         this.win = 0;
         this.lose = 0;
-
     }
     
     /**
      * Init states: obstacleState, userState, collisionState, inputState, 
-     *              graphicsState, guiState
+     *              graphicsState
      * 
      * Init resorc: gameContainer
      * 
@@ -70,8 +67,7 @@ public class Game extends BasicGame {
         this.userState = new UserState(this);
         this.collisionState = new CollisionState(this);
         this.inputState = new InputState(this);
-        this.guiState = new GUIState(this);
-        this.graphicsState = new GraphicsState(this);
+        this.gameGUI = new GameGUI(this);
         userState.createUserRect();
         addEntities(userState.getEntities());
         obstacleState.createBarriers();
@@ -99,6 +95,7 @@ public class Game extends BasicGame {
      */
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
+        gameGUI.drawWinLoss(g);
         for (Entity e : entities) {
             if (e.isVisible()) {
                 e.render(gc, g);
@@ -223,7 +220,7 @@ public class Game extends BasicGame {
      * @return AngelCodeFont from GraphicsState
      */
     public AngelCodeFont getFont() {
-        return graphicsState.getFont();
+        return gameGUI.getFont();
     }
     
     public void toggleInGame() {
